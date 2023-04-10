@@ -1,17 +1,23 @@
 import PropTypes from 'prop-types';
 import css from 'components/contactItem/ContactItem.module.css';
-const ContactItem = ({ contact, onDeleteContact }) => (
-  <li className={css.listItem}>
-    {contact.name} {contact.number}
-    <button
-      className={css.deleteBtn}
-      type="button"
-      onClick={() => onDeleteContact(contact.id)}
-    >
-      Delete
-    </button>
-  </li>
-);
+
+
+const ContactItem = ({ contact, onDeleteContact }) => {
+  const handleDelete = () => {
+    onDeleteContact(contact.id);
+  };
+  return (
+    <div className={css.container}>
+      <li>
+        <div className={css.name}>{contact.name}</div>
+        <div className={css.number}>{contact.number}</div>
+        <button className={css.btn} onClick={handleDelete}>
+          Delete
+        </button>
+      </li>
+    </div>
+  );
+};
 
 ContactItem.propTypes = {
   contact: PropTypes.shape({

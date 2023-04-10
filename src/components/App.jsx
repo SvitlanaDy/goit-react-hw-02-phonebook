@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ContactForm from 'components/contactForm/ContactForm';
 import ContactList from 'components/contactList/ContactList';
 import Filter from 'components/filter/Filter';
+import css from './App.module.css';
 class App extends Component {
   state = {
     contacts: [
@@ -14,30 +15,19 @@ class App extends Component {
     filter: '',
   };
 
-
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
-  };
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+  
 
   addContact = newContact => {
-    const isDuplicateName = this.state.contacts.find(
-     
+    const isExistName = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
     );
 
-    if (isDuplicateName) {
+    if (isExistName) {
       alert(`${newContact.name} is already in contacts`);
       return;
     }
     this.setState(prevState => ({
-      contacts: [prevState.contacts, newContact],
+      contacts: [...prevState.contacts, newContact],
     }));
   };
 
@@ -52,17 +42,21 @@ class App extends Component {
     );
   };
 
-
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
 
   render() {
     return (
       <div>
-        <h1>Phonebook</h1>
+        <h1 className={css.title}>Phonebook</h1>
         <ContactForm
           onAddContact={this.addContact}
           contacts={this.state.contacts}
         />
-        <h2>Contacts</h2>
+        <h2 className={css.title}>Contacts</h2>
         <Filter value={this.state.filter} onChangeFilter={this.changeFilter} />
         <ContactList
           contacts={this.getContacts()}
@@ -84,5 +78,3 @@ App.propTypes = {
     })
   ),
 };
-
-

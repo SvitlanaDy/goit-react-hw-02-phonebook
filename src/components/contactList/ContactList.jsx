@@ -5,7 +5,7 @@ import css from 'components/contactList/contactList.module.css';
 
 
 const ContactList = ({ contacts, onDeleteContact }) => (
-  <ul className={css.contactList}>
+  <ul className={css.list}>
     {contacts.map(contact => (
       <ContactItem
         key={contact.id}
